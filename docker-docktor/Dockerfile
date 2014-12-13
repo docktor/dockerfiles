@@ -7,7 +7,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 ADD supervisord.conf.d/* /etc/supervisor/conf.d/
 ADD startup.sh /opt/startup.sh
-ADD updateDocktor.sh /opt/docktor/updateDocktor.sh
+ADD update.sh /opt/docktor/update.sh
 
 ENV NODE_ENV production
 
@@ -22,7 +22,7 @@ RUN apt-get -y update && \
   chmod -R go=u,go-w . && \
   echo 'docktor:docktorpass' | chpasswd && \
   chown -R docktor:docktor /opt/ && \
-  chmod +x /opt/startup.sh /opt/docktor/updateDocktor.sh && \
+  chmod +x /opt/startup.sh /opt/docktor/update.sh && \
   npm install -g bower && \
   npm install -g grunt-cli && \
   apt-get clean && \
@@ -30,10 +30,8 @@ RUN apt-get -y update && \
 
 USER docktor
 RUN  cd /opt/docktor && \
-  git clone https://github.com/yesnault/docktor.git docktor && \
-  cd docktor && \
-  npm install --config.interactive=false && \
-  grunt build
+  git clone https://github.com/docktor/docktor.git docktor && \
+  /opt/docktor/update.sh
 
 USER root
 
