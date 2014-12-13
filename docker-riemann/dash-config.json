@@ -1,0 +1,6 @@
+{
+  "server": "RIEMANN_HOST:RIEMANN_DASH_WS_PORT",
+  "workspaces": [
+  
+  ]
+}

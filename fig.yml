@@ -1,0 +1,50 @@
+docktor:
+  build: docker-docktor
+  hostname: docktor
+  links:
+    - mongodb:db_1
+  ports:
+    - "3000:3000"
+
+mongodb:
+  build: docker-mongodb
+  hostname: docktor-mongodb
+
+influxdb:
+  build: docker-influxdb
+  hostname: docktor-influxdb
+  ports:
+   - "8086:8086"
+   - "8083:8083"
+
+grafana:
+  build: docker-grafana
+  hostname: docktor-grafana
+  environment:
+    INFLUXDB_PROTOCOL : http
+    INFLUXDB_HOST : 192.168.59.103
+    INFLUXDB_PORT : 8086
+    INFLUXDB_NAME : riemann
+    INFLUXDB_USER : root
+    INFLUXDB_PASS : root
+    HTTP_USER : admin
+    HTTP_PASS : admin
+  ports:
+   - "8090:80"
+
+riemann:
+  build: docker-riemann
+  hostname: docktor-riemann
+  environment:
+    RIEMANN_DASH_CONFIG_PORT: 4567
+    RIEMANN_DASH_WS_PORT: 5556
+    RIEMANN_HOST: 192.168.59.103
+    RIEMANN_INFLUXDB_HOST: 192.168.59.103
+    RIEMANN_INFLUXDB_PORT: 8086
+    RIEMANN_INFLUXDB_USERNAME: root
+    RIEMANN_INFLUXDB_PASSWORD: root
+    RIEMANN_INFLUXDB_DB: riemann
+  ports:
+   - "4567:4567"
+   - "5555:5555/udp"
+   - "5556:5556"
