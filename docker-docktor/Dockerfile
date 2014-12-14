@@ -13,7 +13,7 @@ ENV NODE_ENV production
 
 # Get Node.JS & NPM & GIT & config
 RUN apt-get -y update && \
-  apt-get -y install supervisor nodejs npm git && \
+  apt-get -y install supervisor nodejs npm git vim && \
   ln -s /usr/bin/nodejs /usr/bin/node && \
   mkdir -p /home/docktor && \
   useradd -d /home/docktor -s /bin/sh docktor && \
@@ -34,5 +34,4 @@ RUN  cd /opt/docktor && \
   /opt/docktor/update.sh
 
 USER root
-
 CMD ["/opt/startup.sh"]
