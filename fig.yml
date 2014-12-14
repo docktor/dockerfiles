@@ -50,6 +50,14 @@ riemann:
    - "5555:5555/udp"
    - "5556:5556"
 
+gorycadvisor:
+  build: docker-goryCadvisor
+  hostname: docktor-goryCadvisor
+  environment:
+    RIEMANN_ADDRESS: 192.168.59.104:5555
+    CADVISOR_ADDRESS: 192.168.59.104:8080
+    INTERVAL: 5s
+
 #cadvisor:
 #  image: google/cadvisor:latest
 #  volumes:
