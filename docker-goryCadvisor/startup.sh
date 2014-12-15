@@ -20,4 +20,10 @@ sed -i -e "s/__RIEMANN_ADDRESS__/${RIEMANN_ADDRESS}/g" \
     -e "s/__CADVISOR_ADDRESS__/${CADVISOR_ADDRESS}/g" \
     -e "s/__INTERVAL__/${INTERVAL}/g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
 
+if [ "x${RIEMANN_HOST_EVENT}" != "x" ]; then
+    echo "=> RIEMANN_HOST_EVENT is specified. set to supervisord.gorycadvisor.conf file"
+
+    sed -i -e "s/__RIEMANN_HOST_EVENT__/${RIEMANN_HOST_EVENT}/g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
+fi
+
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

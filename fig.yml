@@ -57,6 +57,7 @@ gorycadvisor:
     RIEMANN_ADDRESS: 192.168.59.104:5555
     CADVISOR_ADDRESS: 192.168.59.104:8080
     INTERVAL: 5s
+    RIEMANN_HOST_EVENT: MY_HOST
 
 #cadvisor:
 #  image: google/cadvisor:latest
