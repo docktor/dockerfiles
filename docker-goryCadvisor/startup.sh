@@ -24,6 +24,9 @@ if [ "x${RIEMANN_HOST_EVENT}" != "x" ]; then
     echo "=> RIEMANN_HOST_EVENT is specified. set to supervisord.gorycadvisor.conf file"
 
     sed -i -e "s/__RIEMANN_HOST_EVENT__/${RIEMANN_HOST_EVENT}/g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
+else
+	echo "=> RIEMANN_HOST_EVENT is not specified. set '' to riemann_host_event in supervisord.gorycadvisor.conf file"
+	sed -i -e "s/__RIEMANN_HOST_EVENT__//g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
 fi
 
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
