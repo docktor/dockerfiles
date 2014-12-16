@@ -31,5 +31,6 @@ ADD supervisord.conf.d/* /etc/supervisor/conf.d/
 #ENV CADVISOR_ADDRESS
 #ENV INTERVAL
 #ENV RIEMANN_HOST_EVENT
+#ENV RIEMANN_TTL_EVENT
 
 CMD ["/opt/startup.sh"]

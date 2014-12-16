@@ -29,4 +29,13 @@ else
 	sed -i -e "s/__RIEMANN_HOST_EVENT__//g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
 fi
 
+if [ "x${RIEMANN_TTL_EVENT}" != "x" ]; then
+    echo "=> RIEMANN_TTL_EVENT is specified. set to supervisord.gorycadvisor.conf file"
+
+    sed -i -e "s/__RIEMANN_TTL_EVENT__/${RIEMANN_TTL_EVENT}/g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
+else
+	echo "=> RIEMANN_TTL_EVENT is not specified. set '' to riemann_host_event in supervisord.gorycadvisor.conf file"
+	sed -i -e "s/__RIEMANN_HOST_EVENT__/20/g" /etc/supervisor/conf.d/supervisord.gorycadvisor.conf
+fi
+
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

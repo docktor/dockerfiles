@@ -11,3 +11,10 @@ docker run \
     -e INTERVAL=5s \
     docktor/gorycadvisor:latest
 ```
+
+Other parameters : 
+
+You can force `host` parameter in Riemann Event, with `-riemann_host_event` parameter.
+This is could be usefull if you run goryCadvisor inside a Docker Container.
+
+Parameter `riemann_ttl_event` (default to 20) is used to set TTL of each event sent to Riemann.
