@@ -96,11 +96,25 @@ $.ajax({
   _(result[0].points).forEach(function(value) {
     var serieName = value[1];
     if (!containerName || serieName.indexOf('containerName') > 0) {
-      if (serieName.indexOf("Memory.UsageMB") > 0) {
-        addDashboard("Live Memory Usage in MB", serieName, 'MB')
-      } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
-        addDashboard('LiveCPU Usage in Percent', serieName, '%')
+      var title = '';
+      if (serieName.indexOf("stats") > 0) {
+        title = 'Stats';
+      } else {
+        title = 'Live';
       }
+
+      var titleEnd = '';
+      if (serieName.indexOf(' ') > 0) {
+        titleEnd = ' - ' + serieName.substr(serieName.indexOf(' '), serieName.length);
+      }
+
+      if (serieName.indexOf("Memory.UsageMB") > 0) {
+        addDashboard(title + ' Memory Usage in MB' + titleEnd, serieName, 'MB')
+      } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
+        addDashboard(title + ' CPU Usage in Percent' + titleEnd, serieName, '%')
+      }
+
+      
     }
   });
 });
