@@ -5,7 +5,7 @@ MAINTAINER Yvonnick Esnault <yvonnick@esnau.lt>
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
-ENV GRAFANA_VERSION 1.8.1
+ENV GRAFANA_VERSION 1.9.0
 
 ADD startup.sh /opt/startup.sh
 
@@ -16,6 +16,7 @@ RUN apt-get update && \
     tar zxf grafana.tar.gz && \
     rm grafana.tar.gz && \
     mv grafana-${GRAFANA_VERSION} /opt/app && \
+    mv /opt/app/app/dashboards /opt/app/app/dashboards-origin && \
     echo "daemon off;" >> /etc/nginx/nginx.conf && \
     apt-get autoremove -y wget && \
     apt-get clean && \
@@ -24,5 +25,6 @@ RUN apt-get update && \
 ADD sites-enabled/* /etc/nginx/sites-enabled/
 ADD supervisord.conf.d/* /etc/supervisor/conf.d/
 ADD config.js /opt/app/config.js
+ADD dashboards/docktor.js /opt/app/app/dashboards-origin/docktor.js
 
 CMD ["/opt/startup.sh"]

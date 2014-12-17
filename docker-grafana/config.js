@@ -15,6 +15,9 @@ function (Settings) {
     timezoneOffset: null,
     grafana_index: "grafana-dash",
     unsaved_changes_warning: true,
-    panel_names: ['text','graphite']
+    panel_names: ['text','graphite'],
+    admin: {
+      password: '123'
+    }
   });
 });

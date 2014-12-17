@@ -61,4 +61,12 @@ echo "=> Setting basic auth for ${HTTP_USER} user with ${HTTP_PASS} password"
 echo ${HTTP_PASS} | htpasswd -i -c /opt/app/.htpasswd  ${HTTP_USER}
 echo "=> Done!"
 
+
+if [ "$(ls /opt/app/app/dashboards)" ]; then
+    echo "=> /opt/app/app/dashboards have already some dashboards"
+else
+    echo "=> cp /opt/app/app/dashboards-origin/* /opt/app/app/dashboards/"
+    cp /opt/app/app/dashboards-origin/* /opt/app/app/dashboards/
+fi
+
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

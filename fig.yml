@@ -22,7 +22,7 @@ grafana:
   hostname: docktor-grafana
   environment:
     INFLUXDB_PROTOCOL : http
-    INFLUXDB_HOST : 192.168.59.104
+    INFLUXDB_HOST : 192.168.50.4
     INFLUXDB_PORT : 8086
     INFLUXDB_NAME : riemann
     INFLUXDB_USER : root
@@ -31,6 +31,8 @@ grafana:
     HTTP_PASS : admin
   ports:
    - "8090:80"
+  volumes:
+   - /repositories/docktor/data_docker/grafana/opt/app/app/dashboards:/opt/app/app/dashboards
 
 riemann:
   build: docker-riemann
@@ -38,8 +40,8 @@ riemann:
   environment:
     RIEMANN_DASH_CONFIG_PORT: 4567
     RIEMANN_DASH_WS_PORT: 5556
-    RIEMANN_HOST: 192.168.59.104
-    RIEMANN_INFLUXDB_HOST: 192.168.59.104
+    RIEMANN_HOST: 192.168.50.4
+    RIEMANN_INFLUXDB_HOST: 192.168.50.4
     RIEMANN_INFLUXDB_PORT: 8086
     RIEMANN_INFLUXDB_USERNAME: root
     RIEMANN_INFLUXDB_PASSWORD: root
@@ -54,8 +56,8 @@ gorycadvisor:
   build: docker-goryCadvisor
   hostname: docktor-goryCadvisor
   environment:
-    RIEMANN_ADDRESS: 192.168.59.104:5555
-    CADVISOR_ADDRESS: 192.168.59.104:8080
+    RIEMANN_ADDRESS: 192.168.50.4:5555
+    CADVISOR_ADDRESS: 192.168.50.4:8080
     INTERVAL: 5s
     RIEMANN_HOST_EVENT: MY_HOST
 
