@@ -1,17 +1,8 @@
 /* global _ */
 
 /*
- * Complex scripted dashboard
- * This script generates a dashboard object that Grafana can load. It also takes a number of user
- * supplied URL parameters (int ARGS variable)
- *
- * Return a dashboard object, or a function
- *
- * For async scripts, return a function, this function must take a single callback function as argument,
- * call this callback function with the dashboard object (look at scripted_async.js for an example)
+ * DOCKTOR GRAFANA BOARD
  */
-
-
 
 // accessable variables in this scope
 var window, document, ARGS, $, jQuery, moment, kbn, services;
@@ -43,54 +34,41 @@ dashboard.hideControls = true;
 $(".nav").hide();
 
 var rows = 1;
-var daemonName = 'argName';
-var containerName = 'argName';
+var groupName = 'argName';
+var containerName = null;
 
 if(!_.isUndefined(ARGS.rows)) {
   rows = parseInt(ARGS.rows, 10);
 }
 
-if(!_.isUndefined(ARGS.daemonName)) {
-  daemonName = ARGS.daemonName;
-  dashboard.title = dashboard.title + " - " + daemonName;
+if(!_.isUndefined(ARGS.groupName)) {
+  groupName = ARGS.groupName;
+  dashboard.title = dashboard.title + " - " + groupName;
 }
 
 if(!_.isUndefined(ARGS.containerName)) {
   containerName = ARGS.containerName;
+  if (containerName.indexOf('/') === 0) {
+    containerName = containerName.substr(1,containerName.length);
+  }
+
   dashboard.title = dashboard.title + " - " + containerName;
 }
 
-if(_.isUndefined(daemonName) || _.isUndefined(containerName)) {
-  alert("Invalid argument containerName and daemonName");
+if(_.isUndefined(groupName)) {
+  alert("Invalid argument groupName");
 } 
 
-
-// default datasource
 var datasource = services.datasourceSrv.default;
-// get datasource used for saving dashboards
 var influxDB = services.datasourceSrv.get('influxdb');
-console.log(influxDB);
 
-
- $.ajax({
-    method: 'GET',
-    url: 'http://192.168.50.4:8086/db/riemann/series?p=root&q=list+series+%2FCPOU%2F&u=root'
-  })
-  .done(function(result) {
-    console.log("RESULT");
-    console.log(result);
-
-  });
-
-//http://192.168.50.4:8086/db/riemann/series?p=root&q=list+series&time_precision=s&u=root
-
-
+function addDashboard(title, serieName, leftYAxisLabel) {
   dashboard.rows.push({
     title: 'Chart',
     height: '300px',
     panels: [
       {
-        title: 'LiveCPU Usage in Percent',
+        title: title,
         type: 'graph',
         span: 12,
         fill: 1,
@@ -100,38 +78,31 @@ console.log(influxDB);
              "target": "",
               "function": "mean",
               "column": "value",
-              "series": daemonName + ".Cpu.Usage.TotalPercent " + containerName,
-              "query": "select mean(value) from \"" + daemonName + ".Cpu.Usage.TotalPercent " + containerName + "\" where $timeFilter group by time($interval) order asc"
+              "series": serieName,
+              "query": "select mean(value) from \"" + serieName + "\" where $timeFilter group by time($interval) order asc"
           }
         ],
-        "leftYAxisLabel": "%"
+        "leftYAxisLabel": leftYAxisLabel
       }
     ]
   });
+};
 
-  dashboard.rows.push({
-    title: 'Chart',
-    height: '300px',
-    panels: [
-      {
-        title: 'Live Memory Usage in MB',
-        type: 'graph',
-        span: 12,
-        fill: 1,
-        linewidth: 2,
-        targets: [
-          {
-             "target": "",
-              "function": "mean",
-              "column": "value",
-              "series": daemonName + ".Memory.UsageMB " + containerName,
-              "query": "select mean(value) from \"" + daemonName + ".Memory.UsageMB " + containerName + "\" where $timeFilter group by time($interval) order asc"
-          }
-        ],
-        "leftYAxisLabel": "MB"
+$.ajax({
+  method: 'GET',
+  url: influxDB.urls[0] + '/series?p=root&q=list+series+%2F' + groupName + '%2F&u=root'
+})
+.done(function(result) {
+  _(result[0].points).forEach(function(value) {
+    var serieName = value[1];
+    if (!containerName || serieName.indexOf('containerName') > 0) {
+      if (serieName.indexOf("Memory.UsageMB") > 0) {
+        addDashboard("Live Memory Usage in MB", serieName, 'MB')
+      } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
+        addDashboard('LiveCPU Usage in Percent', serieName, '%')
       }
-    ]
+    }
   });
-
+});
 
 return dashboard;
