@@ -145,7 +145,7 @@ function getPanelCpu(title, spanSize) {
             "avg": true,
             "alignAsTable": true,
             "rightSide": false,
-            "sortDesc": false,
+            "sortDesc": true,
             "sort": "current"
         },
         "nullPointMode": "connected",
@@ -209,7 +209,7 @@ function getPanelMemory(title, spanSize) {
             "avg": true,
             "alignAsTable": true,
             "rightSide": false,
-            "sortDesc": false,
+            "sortDesc": true,
             "sort": "current"
         },
         "nullPointMode": "connected",
@@ -255,7 +255,7 @@ $.ajax({
         var serieName = value[1];
         var containerTitle = serieName.substring(serieName.indexOf(' ') + 1, serieName.length);
 
-        if (!_.contains(containersTitles, containerTitle)) {
+        if (!_.contains(containersTitles, containerTitle) && serieName.indexOf("Usage") > 0) {
             containersTitles.push(containerTitle);
         }
 
