@@ -8,6 +8,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 ENV INFLUXDB_VERSION 0.8.6
 
 ADD startup.sh /opt/startup.sh
+ADD createDB.sh /opt/createDB.sh
 
 RUN apt-get update && \
     apt-get install -y supervisor curl && \
@@ -16,10 +17,9 @@ RUN apt-get update && \
     dpkg -i /opt/influxdb_latest_amd64.deb && \
     rm -rf /opt/influxdb/shared/data && \
     chown -R daemon:daemon /opt/influxdb && \
-    chmod +x /opt/startup.sh && \
+    chmod +x /opt/startup.sh /opt/createDB.sh && \
     rm -f /opt/*.deb && \
     mkdir /opt/influxdbconfig && \
-    apt-get autoremove -y curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

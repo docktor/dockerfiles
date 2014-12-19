@@ -95,9 +95,9 @@ $.ajax({
 .done(function(result) {
   _(result[0].points).forEach(function(value) {
     var serieName = value[1];
-    if (!containerName || serieName.indexOf('containerName') > 0) {
+    if (!containerName || serieName.indexOf(containerName) > 0) {
       var title = '';
-      if (serieName.indexOf("stats") > 0) {
+      if (serieName.substring(0, 5) === 'stats') {
         title = 'Stats';
       } else {
         title = 'Live';
