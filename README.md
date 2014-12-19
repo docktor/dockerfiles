@@ -2,11 +2,11 @@
 
 ## Using Docker
 
-Docktor : see https://github.com/docktor/dockerfiles/tree/master/docker-docktor/README.md
-InfluxDB : see https://github.com/docktor/dockerfiles/tree/master/docker-influxdb/README.md
-Riemann : see https://github.com/docktor/dockerfiles/tree/master/docker-riemann/README.md
-Grafana : see https://github.com/docktor/dockerfiles/tree/master/docker-grafana/README.md
-GoryCadvisor : see https://github.com/docktor/dockerfiles/tree/master/docker-goryCadvisor/README.md
+- Docktor : see https://github.com/docktor/dockerfiles/tree/master/docker-docktor/README.md
+- InfluxDB : see https://github.com/docktor/dockerfiles/tree/master/docker-influxdb/README.md
+- Riemann : see https://github.com/docktor/dockerfiles/tree/master/docker-riemann/README.md
+- Grafana : see https://github.com/docktor/dockerfiles/tree/master/docker-grafana/README.md
+- GoryCadvisor : see https://github.com/docktor/dockerfiles/tree/master/docker-goryCadvisor/README.md
 
 ## Using fig
 
