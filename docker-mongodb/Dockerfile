@@ -13,7 +13,7 @@ ADD startup.sh /opt/startup.sh
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \ 
     echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list && \
     apt-get -y update && \ 
-    apt-get install -y supervisor cron mongodb-org && \
+    apt-get install -y supervisor cron mongodb-org vim && \
     mkdir -p /data/db && \ 
     mkdir -p /opt/backups && \ 
     apt-get clean && \

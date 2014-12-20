@@ -11,7 +11,7 @@ ADD startup.sh /opt/startup.sh
 WORKDIR /opt/
 
 RUN apt-get update && \
-    apt-get install -y supervisor golang git mercurial && \
+    apt-get install -y supervisor golang git mercurial vim && \
     git clone https://github.com/docktor/goryCadvisor.git && \
     go get github.com/bigdatadev/goryman && \
     go get github.com/golang/glog && \

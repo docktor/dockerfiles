@@ -10,7 +10,7 @@ ENV GRAFANA_VERSION 1.9.0
 ADD startup.sh /opt/startup.sh
 
 RUN apt-get update && \
-    apt-get install -y supervisor wget apache2-utils nginx && \
+    apt-get install -y supervisor wget apache2-utils nginx vim && \
     cd /opt && \
     wget http://grafanarel.s3.amazonaws.com/grafana-${GRAFANA_VERSION}.tar.gz -O grafana.tar.gz && \
     tar zxf grafana.tar.gz && \
