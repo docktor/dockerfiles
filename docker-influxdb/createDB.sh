@@ -20,7 +20,7 @@ if [ $? -eq 1 ]; then
       "name": "stats",
       "retentionPolicy": "inf",
       "shardDuration": "7d",
-      "regex": "/.*stats.*/",
+      "regex": "/^stats.*/",
       "replicationFactor": 1,
       "split": 1
     }
