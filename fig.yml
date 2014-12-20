@@ -19,8 +19,12 @@ influxdb:
   ports:
    - "8086:8086"
    - "8083:8083"
-  volumes:
-   - /docktor/data_docktor/influxdb/data:/data
+  # Bug with mapping volume of influxdb on vagrant :
+  #[2014/12/20 15:15:39 UTC] [EROR] (github.com/influxdb/influxdb/cluster.(*ClusterConfiguration).AddShards:1075) AddShards: error setting local store: %!(EXTRA levigo.DatabaseError=IO error: /data/db/shard_db_v2/00194: Invalid argument)
+  #[2014/12/20 15:15:39 UTC] [EROR] (github.com/influxdb/influxdb/coordinator.(*RaftServer).doOrProxyCommandOnce:168) Cannot run command &coordinator.CreateShardsCommand{Shards:[]*cluster.NewShardData{(*cluster.NewShardData)(0xc2082cc8c0)}, SpaceName:""}. IO error: /data/db/shard_db_v2/00194: Invalid argument
+  #[2014/12/20 15:15:39 UTC] [EROR] (github.com/influxdb/influxdb/coordinator.(*RaftServer).CreateShards:750) RAFT: CreateShards: %!(EXTRA levigo.DatabaseError=IO error: /data/db/shard_db_v2/00194: Invalid argument)
+  # volumes:
+  #- /docktor/data_docktor/influxdb/data:/data
 
 grafana:
   build: docker-grafana
