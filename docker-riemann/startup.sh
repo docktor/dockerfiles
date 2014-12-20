@@ -1,6 +1,11 @@
 #!/bin/bash
 
-cp /opt/riemann/riemann/etc-origin/* /opt/riemann/riemann/etc/
+if [ "$(ls /opt/riemann/riemann/etc/)" ]; then
+    echo "=> /opt/riemann/riemann/etc/ have already some configuration"
+else
+    echo "=> cp /opt/riemann/riemann/etc-origin/* /opt/riemann/riemann/etc/"
+    cp /opt/riemann/riemann/etc-origin/* /opt/riemann/riemann/etc/
+fi
 
 if [ "x${RIEMANN_DASH_CONFIG_PORT}" = "x" ]; then
     echo "=> No RIEMANN_DASH_CONFIG_PORT is specified (env RIEMANN_DASH_CONFIG_PORT) - exit"

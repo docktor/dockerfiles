@@ -9,6 +9,7 @@ ENV INFLUXDB_VERSION 0.8.6
 
 ADD startup.sh /opt/startup.sh
 ADD createDB.sh /opt/createDB.sh
+ADD startSupervisorPrograms.sh /opt/startSupervisorPrograms.sh
 
 RUN apt-get update && \
     apt-get install -y supervisor curl && \
@@ -17,7 +18,7 @@ RUN apt-get update && \
     dpkg -i /opt/influxdb_latest_amd64.deb && \
     rm -rf /opt/influxdb/shared/data && \
     chown -R daemon:daemon /opt/influxdb && \
-    chmod +x /opt/startup.sh /opt/createDB.sh && \
+    chmod +x /opt/startup.sh /opt/createDB.sh /opt/startSupervisorPrograms.sh && \
     rm -f /opt/*.deb && \
     mkdir /opt/influxdbconfig && \
     apt-get clean && \

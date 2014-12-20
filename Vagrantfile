@@ -15,7 +15,7 @@ PRIVATE_NETWORK = ENV['PRIVATE_NETWORK']
 # See http://docs.docker.io/en/latest/use/port_redirection/ for more
 # $ FORWARD_DOCKER_PORTS=1 vagrant [up|reload]
 FORWARD_DOCKER_PORTS = ENV['FORWARD_DOCKER_PORTS']
-VAGRANT_RAM = ENV['VAGRANT_RAM'] || 8192
+VAGRANT_RAM = ENV['VAGRANT_RAM'] || 4096
 VAGRANT_CORES = ENV['VAGRANT_CORES'] || 2
 
 # You may also provide a comma-separated list of ports
@@ -203,8 +203,7 @@ if forward_ports.any?
 end
 
 Vagrant.configure("2") do |config|
-  #config.vm.synced_folder "data/", "/data"
- config.vm.synced_folder "/Users/yvonnickesnault/Projets/repositories", "/repositories"
+ config.vm.synced_folder "../", "/docktor"
 end
 
 if !PRIVATE_NETWORK.nil?

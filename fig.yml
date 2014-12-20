@@ -9,6 +9,9 @@ docktor:
 mongodb:
   build: docker-mongodb
   hostname: docktor-mongodb
+  volumes:
+   - /docktor/data_docktor/mongodb/data:/data
+   - /docktor/data_docktor/mongodb/opt/backups:/opt/backups
 
 influxdb:
   build: docker-influxdb
@@ -16,6 +19,8 @@ influxdb:
   ports:
    - "8086:8086"
    - "8083:8083"
+  volumes:
+   - /docktor/data_docktor/influxdb/data:/data
 
 grafana:
   build: docker-grafana
@@ -32,7 +37,7 @@ grafana:
   ports:
    - "8090:80"
   volumes:
-   - /repositories/docktor/data_docker/grafana/opt/app/app/dashboards:/opt/app/app/dashboards
+   - /docktor/data_docktor/grafana/opt/app/app/dashboards:/opt/app/app/dashboards
 
 riemann:
   build: docker-riemann
@@ -51,6 +56,8 @@ riemann:
    - "5555:5555/tcp"
    - "5555:5555/udp"
    - "5556:5556"
+  volumes:
+   - /docktor/data_docktor/riemann/opt/riemann/riemann/etc:/opt/riemann/riemann/etc
 
 gorycadvisor:
   build: docker-goryCadvisor
@@ -58,16 +65,17 @@ gorycadvisor:
   environment:
     RIEMANN_ADDRESS: 192.168.50.4:5555
     CADVISOR_ADDRESS: 192.168.50.4:8080
-    INTERVAL: 5s
+    INTERVAL: 20s
+    RIEMANN_TTL_EVENT: 30
     RIEMANN_HOST_EVENT: MY_HOST
 
-#cadvisor:
-#  image: google/cadvisor:latest
-#  volumes:
-#   - /:/rootfs:ro
-#   - /var/run:/var/run:rw
-#   - /sys:/sys:ro
-#   - /var/lib/docker/:/var/lib/docker:ro
-#  ports:
-#   - "8080:8080"
+cadvisor:
+  image: google/cadvisor:latest
+  volumes:
+   - /:/rootfs:ro
+   - /var/run:/var/run:rw
+   - /sys:/sys:ro
+   - /var/lib/docker/:/var/lib/docker:ro
+  ports:
+   - "8080:8080"
 

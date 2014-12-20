@@ -20,7 +20,8 @@ RUN chmod +x /opt/startup.sh && \
         htop software-properties-common \
         oracle-java8-installer && \
     mkdir -p /opt/riemann && cd /opt/riemann && \
-    curl http://aphyr.com/riemann/riemann-${VERSION_RIEMANN}.tar.bz2 | tar xj && \
+    echo "get http://aphyr.com/riemann/riemann-${VERSION_RIEMANN}.tar.bz2" && \
+    curl --insecure https://aphyr.com/riemann/riemann-${VERSION_RIEMANN}.tar.bz2 | tar xj && \
     mv riemann-${VERSION_RIEMANN} riemann && \
     gem install riemann-client riemann-tools riemann-dash && \
     mv /opt/riemann/riemann/etc /opt/riemann/riemann/etc-origin && \
