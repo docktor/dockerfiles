@@ -161,6 +161,69 @@ function getPanelCpu(title, spanSize) {
     }
 }
 
+function getPanelRowFileSystemAll() {
+    return getPanelFileSystem(groupName + " - All Services - FileSystem in Percent", 12)
+}
+
+function getPanelFileSystem(title, spanSize) {
+    return {
+        "title": title,
+        "error": false,
+        "span": spanSize,
+        "editable": false,
+        "type": "graph",
+        "datasource": null,
+        "renderer": "flot",
+        "x-axis": true,
+        "y-axis": true,
+        "y_formats": [
+            "percent",
+            "short"
+        ],
+        "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": 70,
+            "threshold2": 90,
+            "threshold1Color": "rgba(216, 106, 27, 0.27)",
+            "threshold2Color": "rgba(236, 80, 80, 0.61)"
+        },
+        "lines": true,
+        "fill": 0,
+        "linewidth": 1,
+        "points": true,
+        "pointradius": 1,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+            "show": true,
+            "values": true,
+            "min": true,
+            "max": true,
+            "current": true,
+            "total": false,
+            "avg": true,
+            "alignAsTable": true,
+            "rightSide": false,
+            "sortDesc": true,
+            "sort": "current"
+        },
+        "nullPointMode": "connected",
+        "steppedLine": false,
+        "tooltip": {
+            "value_type": "cumulative",
+            "shared": false
+        },
+        "targets": [ ],
+        "aliasColors": {},
+        "seriesOverrides": [],
+        "links": []
+    }
+}
+
 function getPanelMemoryAll() {
     return getPanelMemory(groupName + " - All Services - Memory Usage in Mb", 12)
 }
@@ -243,11 +306,15 @@ $.ajax({
     var rowAll = getRowAll();
     var panelCpuAll = getPanelRowCpuAll();
     var panelMemoryAll = getPanelMemoryAll();
+    var panelFileSystemAll = getPanelRowFileSystemAll();
 
     var panelCpuLive = null;
     var panelCpuStats = null;
     var panelMemoryLive = null;
     var panelMemoryStats = null;
+    var panelFileSystemLive = null;
+    var panelFileSystemStats = null;
+
     var panelTitle = getPanelTitle();
     var containersTitles = [];
 
@@ -266,6 +333,8 @@ $.ajax({
                         panelMemoryAll.targets.push(getTarget(serieName))
                     } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
                         panelCpuAll.targets.push(getTarget(serieName))
+                    } else if (serieName.indexOf("Filesystem.UsagePercent") > 0) {
+                        panelFileSystemAll.targets.push(getTarget(serieName))
                     }
                 }
             } else {
@@ -276,6 +345,9 @@ $.ajax({
                     } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
                         panelCpuLive = getPanelCpu('CPU Live in %', 6);
                         panelCpuLive.targets.push(getTarget(serieName));
+                    } else if (serieName.indexOf("Filesystem.UsagePercent") > 0){
+                        panelFileSystemLive = getPanelFileSystem('Filesystem Live in %',6);
+                        panelFileSystemLive.targets.push(getTarget(serieName));
                     }
                 } else {
                     if (serieName.indexOf("Memory.UsageMB") > 0) {
@@ -284,7 +356,10 @@ $.ajax({
                     } else if (serieName.indexOf("Cpu.Usage.TotalPercent") > 0) {
                         panelCpuStats = getPanelCpu('CPU Stats in % (10m)', 6);
                         panelCpuStats.targets.push(getTarget(serieName));
-                    }
+                    } else if (serieName.indexOf("Filesystem.UsagePercent") > 0) {
+                        panelFileSystemStats = getPanelFileSystem('Filesystem Stats in % (10m)', 6);
+                        panelFileSystemStats.targets.push(getTarget(serieName));
+                    } 
                 }
             }
         }
@@ -299,6 +374,7 @@ $.ajax({
         rowAll.panels.push(panelTitle);
         rowAll.panels.push(panelMemoryAll);
         rowAll.panels.push(panelCpuAll);
+        rowAll.panels.push(panelFileSystemAll);
         dashboard.rows.push(rowAll);
     } else {
         var row = getRow(groupName + ' ' + containerName);
@@ -307,6 +383,8 @@ $.ajax({
         if (panelCpuStats !== null) row.panels.push(panelCpuStats);
         if (panelMemoryLive !== null) row.panels.push(panelMemoryLive);
         if (panelMemoryStats !== null) row.panels.push(panelMemoryStats);
+        if (panelFileSystemLive !== null) row.panels.push(panelFileSystemLive);
+        if (panelFileSystemStats !== null) row.panels.push(panelFileSystemStats);
         dashboard.rows.push(row);
     }
 });
