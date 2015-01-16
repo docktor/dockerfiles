@@ -27,7 +27,8 @@ if [ $? -eq 1 ]; then
   ],
   "continuousQueries": [
     "select mean(value) as value from /^[^s][^t][^a][^t][^s].*Cpu.Usage.TotalPercent.*/ group by time(10m) into stats.10m.:series_name",
-    "select mean(value) as value from /^[^s][^t][^a][^t][^s].*Memory.UsageMB.*/ group by time(10m) into stats.10m.:series_name"
+    "select mean(value) as value from /^[^s][^t][^a][^t][^s].*Memory.UsageMB.*/ group by time(10m) into stats.10m.:series_name",
+    "select mean(value) as value from /^[^s][^t][^a][^t][^s].*Filesystem.UsagePercent.*/ group by time(10m) into stats.10m.:series_name"
   ]
 } '
 
