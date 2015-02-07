@@ -1,4 +1,4 @@
-# Docker run
+# How to run [Docktor](https://github.com/docktor/docktor) with Docker 
 
 ```
 docker run -d \
