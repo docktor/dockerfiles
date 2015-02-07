@@ -15,7 +15,7 @@ RUN chmod +x /opt/startup.sh && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
     apt-get -y update && \
-    apt-get install -y supervisor build-essential ruby2.1 ruby2.1-dev rubygems \
+    apt-get install -y supervisor build-essential ruby2.1 ruby2.1-dev rubygems libghc-zlib-dev \
         net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree vim \
         htop software-properties-common \
         oracle-java8-installer && \
