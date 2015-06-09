@@ -16,7 +16,7 @@ RUN apt-get update && \
     go get github.com/bigdatadev/goryman && \
     go get github.com/golang/glog && \
     go get github.com/google/cadvisor/client && \
-    go get github.com/google/cadvisor/info && \
+    go get github.com/google/cadvisor/info/v1 && \
     cd goryCadvisor && go build main.go && cd /opt && mv goryCadvisor/main mainGoryCadvisor && \
     rm -rf /opt/goryCadvisor && \
     apt-get autoremove -y golang git mercurial && \
